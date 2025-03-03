@@ -10,7 +10,6 @@ from keras import callbacks
 from dataloader import *
 import matplotlib.pyplot as plt
 import tensorflow as tf
-from keras.utils import multi_gpu_model
 from sklearn.metrics import confusion_matrix
 from Utils import PrintScore
 
@@ -157,11 +156,12 @@ def run_TSSEN(args):
                                             psd_filter_nums=args.num_psd_filters, reduction_ratio=args.reduction_ratio, times=11520, Fs=128, se_activation=args.se_activation)
 
         if gpunums > 1:
-            parallel_model = multi_gpu_model(model, gpus=gpunums)
-            adam = keras.optimizers.Adam(
-                lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-8)
-            parallel_model.compile(
-                optimizer=adam, loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+            strategy = tf.distribute.MirroredStrategy()
+            with strategy.scope():
+                adam = keras.optimizers.Adam(
+                    lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-8)
+                model.compile(
+                    optimizer=adam, loss='sparse_categorical_crossentropy', metrics=['accuracy'])
         else:
             adam = keras.optimizers.Adam(
                 lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-8)
