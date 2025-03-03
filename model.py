@@ -1,5 +1,5 @@
 from keras import backend as K
-from keras.regularizers import l2
+from keras import regularizers
 import keras
 import logging
 logger = logging.getLogger(__name__)
@@ -85,7 +85,7 @@ def SE_Fusion(input_1D_layer, input_2D_layer, reduction_ratio=1, activation='sig
 
 def deepsleepnet(intput, Fs, time_filters_nums, bn_mom):
     y1 = keras.layers.Conv1D(name='conv1_small', kernel_size=Fs//2, strides=Fs//16, filters=time_filters_nums, padding='same',
-                             use_bias=False, kernel_initializer='he_normal', kernel_regularizer=l2(1e-4))(intput)
+                             use_bias=False, kernel_initializer='he_normal', kernel_regularizer=regularizers.l2(1e-4))(intput)
     y1 = keras.layers.BatchNormalization(axis=-1, momentum=bn_mom, epsilon=0.001, center=True, scale=True,
                                          beta_initializer='zeros', gamma_initializer='ones',
                                          moving_mean_initializer='zeros', moving_variance_initializer='ones',
@@ -97,7 +97,7 @@ def deepsleepnet(intput, Fs, time_filters_nums, bn_mom):
     y1 = keras.layers.Dropout(0.5)(y1)
 
     y1 = keras.layers.Conv1D(name='conv2_small', kernel_size=8, strides=1, filters=time_filters_nums*2, padding='same',
-                             kernel_initializer='he_normal', kernel_regularizer=l2(1e-4))(y1)
+                             kernel_initializer='he_normal', kernel_regularizer=regularizers.l2(1e-4))(y1)
     y1 = keras.layers.BatchNormalization(axis=-1, momentum=bn_mom, epsilon=0.001, center=True, scale=True,
                                          beta_initializer='zeros', gamma_initializer='ones',
                                          moving_mean_initializer='zeros', moving_variance_initializer='ones',
@@ -106,7 +106,7 @@ def deepsleepnet(intput, Fs, time_filters_nums, bn_mom):
     y1 = keras.layers.LeakyReLU()(y1)
 
     y1 = keras.layers.Conv1D(name='conv3_small', kernel_size=8, strides=1, filters=time_filters_nums*2, padding='same',
-                             kernel_initializer='he_normal', kernel_regularizer=l2(1e-4))(y1)
+                             kernel_initializer='he_normal', kernel_regularizer=regularizers.l2(1e-4))(y1)
     y1 = keras.layers.BatchNormalization(axis=-1, momentum=bn_mom, epsilon=0.001, center=True, scale=True,
                                          beta_initializer='zeros', gamma_initializer='ones',
                                          moving_mean_initializer='zeros', moving_variance_initializer='ones',
@@ -115,7 +115,7 @@ def deepsleepnet(intput, Fs, time_filters_nums, bn_mom):
     y1 = keras.layers.LeakyReLU()(y1)
 
     y1 = keras.layers.Conv1D(name='conv4_small', kernel_size=8, strides=1, filters=time_filters_nums*2, padding='same',
-                             kernel_initializer='he_normal', kernel_regularizer=l2(1e-4))(y1)
+                             kernel_initializer='he_normal', kernel_regularizer=regularizers.l2(1e-4))(y1)
     y1 = keras.layers.BatchNormalization(axis=-1, momentum=bn_mom, epsilon=0.001, center=True, scale=True,
                                          beta_initializer='zeros', gamma_initializer='ones',
                                          moving_mean_initializer='zeros', moving_variance_initializer='ones',
@@ -125,7 +125,7 @@ def deepsleepnet(intput, Fs, time_filters_nums, bn_mom):
     y1 = keras.layers.MaxPooling1D(pool_size=4, strides=4, padding='same')(y1)
 
     y2 = keras.layers.Conv1D(name='conv1_big', kernel_size=Fs*4, strides=Fs//2, filters=time_filters_nums, padding='same',
-                             use_bias=False, kernel_initializer='he_normal', kernel_regularizer=l2(1e-4))(intput)
+                             use_bias=False, kernel_initializer='he_normal', kernel_regularizer=regularizers.l2(1e-4))(intput)
     y2 = keras.layers.BatchNormalization(axis=-1, momentum=bn_mom, epsilon=0.001, center=True, scale=True,
                                          beta_initializer='zeros', gamma_initializer='ones',
                                          moving_mean_initializer='zeros', moving_variance_initializer='ones',
@@ -137,7 +137,7 @@ def deepsleepnet(intput, Fs, time_filters_nums, bn_mom):
     y2 = keras.layers.Dropout(0.5)(y2)
 
     y2 = keras.layers.Conv1D(name='conv2_big', kernel_size=6, strides=1, filters=time_filters_nums*2, padding='same',
-                             kernel_initializer='he_normal', kernel_regularizer=l2(1e-4))(y2)
+                             kernel_initializer='he_normal', kernel_regularizer=regularizers.l2(1e-4))(y2)
     y2 = keras.layers.BatchNormalization(axis=-1, momentum=bn_mom, epsilon=0.001, center=True, scale=True,
                                          beta_initializer='zeros', gamma_initializer='ones',
                                          moving_mean_initializer='zeros', moving_variance_initializer='ones',
@@ -146,7 +146,7 @@ def deepsleepnet(intput, Fs, time_filters_nums, bn_mom):
     y2 = keras.layers.LeakyReLU()(y2)
 
     y2 = keras.layers.Conv1D(name='conv3_big', kernel_size=6, strides=1, filters=time_filters_nums*2, padding='same',
-                             kernel_initializer='he_normal', kernel_regularizer=l2(1e-4))(y2)
+                             kernel_initializer='he_normal', kernel_regularizer=regularizers.l2(1e-4))(y2)
     y2 = keras.layers.BatchNormalization(axis=-1, momentum=bn_mom, epsilon=0.001, center=True, scale=True,
                                          beta_initializer='zeros', gamma_initializer='ones',
                                          moving_mean_initializer='zeros', moving_variance_initializer='ones',
@@ -155,7 +155,7 @@ def deepsleepnet(intput, Fs, time_filters_nums, bn_mom):
     y2 = keras.layers.LeakyReLU()(y2)
 
     y2 = keras.layers.Conv1D(name='conv4_big', kernel_size=6, strides=1, filters=time_filters_nums*2, padding='same',
-                             kernel_initializer='he_normal', kernel_regularizer=l2(1e-4))(y2)
+                             kernel_initializer='he_normal', kernel_regularizer=regularizers.l2(1e-4))(y2)
     y2 = keras.layers.BatchNormalization(axis=-1, momentum=bn_mom, epsilon=0.001, center=True, scale=True,
                                          beta_initializer='zeros', gamma_initializer='ones',
                                          moving_mean_initializer='zeros', moving_variance_initializer='ones',
@@ -190,7 +190,7 @@ def getModelTSSEN(
     input_psd = keras.layers.core.Permute((2, 3, 1))(input_psd)
 
     x_psd = keras.layers.Conv2D(name='conv1_middle_psd', kernel_size=(1, 1), strides=(1, 1), filters=psd_filter_nums, padding='same',
-                                use_bias=use_bias, kernel_initializer='he_normal', kernel_regularizer=l2(1e-4))(input_psd)
+                                use_bias=use_bias, kernel_initializer='he_normal', kernel_regularizer=regularizers.l2(1e-4))(input_psd)
     x_psd = keras.layers.BatchNormalization(axis=-1, momentum=bn_mom, epsilon=0.001, center=True, scale=True,
                                             beta_initializer='zeros', gamma_initializer='ones',
                                             moving_mean_initializer='zeros', moving_variance_initializer='ones',
@@ -199,7 +199,7 @@ def getModelTSSEN(
     x_psd = keras.layers.ReLU()(x_psd)
 
     x = keras.layers.Conv2D(kernel_size=(3, 3), strides=(1, 1), filters=psd_filter_nums*2, padding='same',
-                            use_bias=True, kernel_initializer='he_normal', kernel_regularizer=l2(1e-4))(x_psd)
+                            use_bias=True, kernel_initializer='he_normal', kernel_regularizer=regularizers.l2(1e-4))(x_psd)
     x = keras.layers.BatchNormalization(axis=-1, momentum=bn_mom, epsilon=0.001, center=True, scale=True,
                                         beta_initializer='zeros', gamma_initializer='ones',
                                         moving_mean_initializer='zeros', moving_variance_initializer='ones',
@@ -207,7 +207,7 @@ def getModelTSSEN(
                                         beta_constraint=None, gamma_constraint=None)(x)
 
     x_psd = keras.layers.Conv2D(kernel_size=(1, 1), strides=(1, 1), filters=psd_filter_nums*2, padding='same',
-                                use_bias=True, kernel_initializer='he_normal', kernel_regularizer=l2(1e-4))(x_psd)
+                                use_bias=True, kernel_initializer='he_normal', kernel_regularizer=regularizers.l2(1e-4))(x_psd)
     x = keras.layers.add([x_psd, x])
     x = keras.layers.MaxPooling2D(pool_size=(
         4, 4), strides=(2, 2), padding='valid')(x)
@@ -225,9 +225,9 @@ def getModelTSSEN(
                 activation=se_activation)
 
     y = keras.layers.Dense(128, activation='relu',
-                           kernel_regularizer=l2(0.1))(y)
+                           kernel_regularizer=regularizers.l2(0.1))(y)
     y = keras.layers.Dense(num_class, activation='softmax',
-                           kernel_regularizer=l2(0.1))(y)
+                           kernel_regularizer=regularizers.l2(0.1))(y)
     model = keras.models.Model(
         [input_layer, input_layer_eog], y)
 
